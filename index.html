@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Just Read</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at center, #343434 0%, #1d1d1d 45%, #101010 100%);
+    color: #eee;
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+body::before {
+    content: "just read";
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+    font-size: clamp(70px, 18vw, 230px);
+    font-weight: 900;
+    color: rgba(255,255,255,0.035);
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.container {
+    width: 100%;
+    max-width: 850px;
+    min-height: 100vh;
+    margin: auto;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.box {
+    width: 100%;
+    padding: 35px 25px;
+    background: rgba(15,15,15,0.72);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 18px;
+    backdrop-filter: blur(8px);
+    text-align: center;
+}
+
+.small {
+    color: #999;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+h1 {
+    font-size: 48px;
+    margin: 15px 0;
+}
+
+.subtitle {
+    color: #bbb;
+    font-size: 18px;
+}
+
+input {
+    width: 100%;
+    max-width: 420px;
+    padding: 16px;
+    margin-top: 20px;
+    border-radius: 10px;
+    border: 1px solid #555;
+    background: #181818;
+    color: white;
+    font-size: 17px;
+    text-align: center;
+    outline: none;
+}
+
+input:focus {
+    border-color: #aaa;
+}
+
+button {
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    margin: 12px auto 0;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    background: #eee;
+    color: #111;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+#error {
+    margin-top: 15px;
+    color: #d88;
+    font-family: Arial, sans-serif;
+}
+
+.message {
+    text-align: left;
+    direction: ltr;
+}
+
+.message h2 {
+    font-size: 28px;
+    font-weight: normal;
+    margin-bottom: 10px;
+}
+
+.line {
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+    margin: 20px 0 30px;
+}
+
+.letter {
+    font-size: 17px;
+    line-height: 1.9;
+    color: #ddd;
+}
+
+.letter p {
+    margin: 0 0 20px;
+}
+
+.signature {
+    margin-top: 35px;
+    font-style: italic;
+}
+
+.hidden {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+    }
+
+    .box {
+        padding: 28px 18px;
+    }
+
+    h1 {
+        font-size: 38px;
+    }
+
+    .letter {
+        font-size: 16px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- صفحة الاسم -->
+    <div class="box" id="login">
+
+        <div class="small">a private message</div>
+
+        <h1>Just Read</h1>
+
+        <div class="subtitle">
+            جرب تكتب اسمك
+        </div>
+
+        <input
+            id="nameInput"
+            type="text"
+            placeholder="اكتب اسمك هنا..."
+            autocomplete="off"
+        >
+
+        <button onclick="unlock()">
+            دخول
+        </button>
+
+        <div id="error"></div>
+
+    </div>
+
+
+    <!-- الرسالة -->
+    <div class="box message hidden" id="message">
+
+        <div class="small">just for you</div>
+
+        <h2>
+            To <span id="personName"></span>
+        </h2>
+
+        <div class="line"></div>
+
+        <div class="letter">
+
+            <p>Dear Melise,</p>
+
+            <p>
+                I’m genuinely drawn to you.
+            </p>
+
+            <p>
+                I think I first started feeling this way when I came across your Instagram and saw you for the first time. I know that might sound silly, and I’m sorry if it does.
+            </p>
+
+            <p>
+                I don’t really see much of a chance for me to ever have a conversation with you, but all I ever wanted was for you to be a small part of my life, even if only for a little while. I wished I could have a moment to sit with you, face to face, and simply talk.
+            </p>
+
+            <p>
+                I know I’m probably not the man you’re looking for. I’m not your age, I’m not handsome, and I’m certainly not rich. But even a short conversation with you would genuinely mean a lot to me. It would make me happy in a way that might be difficult to explain.
+            </p>
+
+            <p>
+                Maybe what you’re reading sounds foolish, or even a little pitiful. Maybe it is. I just wanted you to know.
+            </p>
+
+            <p>
+                And I’m sorry if the way I’m saying all of this makes me seem strange. I never meant to make you uncomfortable. I only wanted to be honest about why I’m writing this to you.
+            </p>
+
+            <p>
+                I don’t expect anything from you.
+            </p>
+
+            <p>
+                I simply wanted, for once, to let my feelings speak for themselves.
+            </p>
+
+            <p class="signature">
+                With all my heart,<br>
+                for you. ♥️
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/*
+   غيّر هذين الاسمين إلى الاسمين
+   اللذين تريد السماح لهما بالدخول
+*/
+
+const correctNames = [
+    "الاسم الأول",
+    "الاسم الثاني"
+];
+
+
+function normalize(text) {
+    return text
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, " ");
+}
+
+
+function unlock() {
+
+    const input = document.getElementById("nameInput");
+    const error = document.getElementById("error");
+
+    const entered = normalize(input.value);
+
+    if (
+        correctNames.some(
+            name => normalize(name) === entered
+        )
+    ) {
+
+        document.getElementById("login").classList.add("hidden");
+
+        document.getElementById("message").classList.remove("hidden");
+
+        document.getElementById("personName").textContent =
+            input.value.trim();
+
+    } else {
+
+        error.textContent =
+            "أنت مو الشخص المطلوب علمود تشوف الرسالة.";
+
+    }
+}
+
+
+document.getElementById("nameInput").addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Enter") {
+            unlock();
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
