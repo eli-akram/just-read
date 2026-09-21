@@ -19,6 +19,7 @@ body {
         url("background.png") center / cover fixed;
     color: #eee;
     font-family: Georgia, "Times New Roman", serif;
+    overflow-x: hidden;
 }
 
 body::before {
@@ -34,6 +35,7 @@ body::before {
     color: rgba(255,255,255,0.035);
     pointer-events: none;
     white-space: nowrap;
+    z-index: 0;
 }
 
 .container {
@@ -45,6 +47,8 @@ body::before {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    z-index: 2;
 }
 
 .box {
@@ -125,6 +129,18 @@ button:active {
 .message {
     text-align: left;
     direction: ltr;
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+        opacity 1.2s ease,
+        transform 1.2s ease;
+    position: relative;
+    z-index: 3;
+}
+
+.message.show {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .message h2 {
@@ -158,7 +174,40 @@ button:active {
     display: none;
 }
 
+/* Hearts */
+.heart {
+    position: fixed;
+    pointer-events: none;
+    z-index: 1;
+    font-size: 18px;
+    opacity: 0;
+    animation: heartFloat 3.8s ease-in-out forwards;
+}
+
+@keyframes heartFloat {
+    0% {
+        opacity: 0;
+        transform: translateY(25px) scale(0.7);
+    }
+
+    15% {
+        opacity: 0.7;
+        transform: translateY(0) scale(1);
+    }
+
+    70% {
+        opacity: 0.45;
+        transform: translateY(-90px) scale(0.95);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-135px) scale(0.75);
+    }
+}
+
 @media (max-width: 600px) {
+
     .container {
         padding: 15px;
     }
@@ -265,6 +314,7 @@ button:active {
 
 </div>
 
+<audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
 
 <script>
 
@@ -280,6 +330,64 @@ function normalize(text) {
         .replace(/\s+/g, " ");
 }
 
+function createHeart() {
+
+    const heart = document.createElement("div");
+
+    heart.className = "heart";
+
+    heart.textContent = "♥";
+
+    const positions = [
+        { left: "18%", top: "48%" },
+        { left: "78%", top: "52%" },
+        { left: "25%", top: "65%" },
+        { left: "72%", top: "62%" }
+    ];
+
+    const position =
+        positions[Math.floor(Math.random() * positions.length)];
+
+    heart.style.left = position.left;
+    heart.style.top = position.top;
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 4000);
+}
+
+function startHearts() {
+
+    let side = 0;
+
+    setInterval(() => {
+
+        const heart = document.createElement("div");
+
+        heart.className = "heart";
+        heart.textContent = "♥";
+
+        if (side === 0) {
+            heart.style.left = "18%";
+            heart.style.top = "52%";
+        } else {
+            heart.style.left = "78%";
+            heart.style.top = "48%";
+        }
+
+        side = side === 0 ? 1 : 0;
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 4000);
+
+    }, 4500);
+}
+
 function unlock() {
 
     const input = document.getElementById("nameInput");
@@ -291,10 +399,24 @@ function unlock() {
 
         document.getElementById("login").classList.add("hidden");
 
-        document.getElementById("message").classList.remove("hidden");
+        const message = document.getElementById("message");
+
+        message.classList.remove("hidden");
 
         document.getElementById("personName").textContent =
             input.value.trim();
+
+        setTimeout(() => {
+            message.classList.add("show");
+        }, 50);
+
+        const music = document.getElementById("bgMusic");
+
+        music.volume = 0.25;
+
+        music.play().catch(() => {});
+
+        startHearts();
 
     } else {
 
