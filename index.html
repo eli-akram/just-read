@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +15,8 @@ body {
     margin: 0;
     min-height: 100vh;
     background:
-        radial-gradient(circle at center, #343434 0%, #1d1d1d 45%, #101010 100%);
+        linear-gradient(rgba(15,15,15,0.35), rgba(15,15,15,0.35)),
+        url("background.png") center / cover fixed;
     color: #eee;
     font-family: Georgia, "Times New Roman", serif;
 }
@@ -40,7 +41,7 @@ body::before {
     max-width: 850px;
     min-height: 100vh;
     margin: auto;
-    padding: 25px;
+    padding: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -53,6 +54,9 @@ body::before {
     border: 1px solid rgba(255,255,255,0.12);
     border-radius: 18px;
     backdrop-filter: blur(8px);
+}
+
+.login {
     text-align: center;
 }
 
@@ -71,14 +75,15 @@ h1 {
 
 .subtitle {
     color: #bbb;
-    font-size: 18px;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
 }
 
 input {
     width: 100%;
     max-width: 420px;
     padding: 16px;
-    margin-top: 20px;
+    margin-top: 22px;
     border-radius: 10px;
     border: 1px solid #555;
     background: #181818;
@@ -125,7 +130,7 @@ button:active {
 .message h2 {
     font-size: 28px;
     font-weight: normal;
-    margin-bottom: 10px;
+    margin: 15px 0;
 }
 
 .line {
@@ -177,26 +182,25 @@ button:active {
 
 <div class="container">
 
-    <!-- صفحة الاسم -->
-    <div class="box" id="login">
+    <div class="box login" id="login">
 
-        <div class="small">a private message</div>
+        <div class="small">A PRIVATE MESSAGE</div>
 
         <h1>Just Read</h1>
 
         <div class="subtitle">
-            جرب تكتب اسمك
+            Try entering your name
         </div>
 
         <input
             id="nameInput"
             type="text"
-            placeholder="اكتب اسمك هنا..."
+            placeholder="Enter your name..."
             autocomplete="off"
         >
 
         <button onclick="unlock()">
-            دخول
+            Enter
         </button>
 
         <div id="error"></div>
@@ -204,10 +208,9 @@ button:active {
     </div>
 
 
-    <!-- الرسالة -->
     <div class="box message hidden" id="message">
 
-        <div class="small">just for you</div>
+        <div class="small">JUST FOR YOU</div>
 
         <h2>
             To <span id="personName"></span>
@@ -265,16 +268,10 @@ button:active {
 
 <script>
 
-/*
-   غيّر هذين الاسمين إلى الاسمين
-   اللذين تريد السماح لهما بالدخول
-*/
-
 const correctNames = [
-    "الاسم الأول",
-    "الاسم الثاني"
+    "melise",
+    "malese"
 ];
-
 
 function normalize(text) {
     return text
@@ -283,7 +280,6 @@ function normalize(text) {
         .replace(/\s+/g, " ");
 }
 
-
 function unlock() {
 
     const input = document.getElementById("nameInput");
@@ -291,11 +287,7 @@ function unlock() {
 
     const entered = normalize(input.value);
 
-    if (
-        correctNames.some(
-            name => normalize(name) === entered
-        )
-    ) {
+    if (correctNames.some(name => normalize(name) === entered)) {
 
         document.getElementById("login").classList.add("hidden");
 
@@ -307,11 +299,10 @@ function unlock() {
     } else {
 
         error.textContent =
-            "أنت مو الشخص المطلوب علمود تشوف الرسالة.";
+            "You are not the person this message is intended for.";
 
     }
 }
-
 
 document.getElementById("nameInput").addEventListener(
     "keydown",
